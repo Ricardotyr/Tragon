@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tragón Ball Z</title>
+    <link rel="icon" href="../static/img/esfera.ico">
+    <!-- LINK CSS -->
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/estilo.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-3.6.1.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script>
+        function token(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = token('csrftoken');
+    </script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+        <div class="container-fluid ">
+            <a class="navbar-brand" href="{% url 'TragonBall:inicio' %}"><img src="../static/img/brand1.png"
+                    alt="Tragón Ball Z" width="200" height="70"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'TragonBall:inicio' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Categorías
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'TragonBall:producto' %}">Productos</a></li>
+                            <li><a class="dropdown-item" href="{% url 'TragonBall:promocion' %}">Promociones</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'TragonBall:delivery' %}">Delivery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'TragonBall:nosotros' %}">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'TragonBall:contacto' %}">Contáctanos</a>
+                    </li>
+                </ul>
+
+                <!-- Icons -->
+                {% if request.session.Email %}
+                <div>
+                    <br>
+                <span style="margin-left: 60%;">{{request.session.Email}}</span> &nbsp; &nbsp;
+                <span style="margin-bottom: 0%;"><a style="margin-top: 1%;" class="text-center" href="{% url 'TragonBall:cerrarSesion' %}" style="margin-left: 70%;">Cerrar sesión</a></span>
+                <br>
+                
+                {% else %}
+                <div class="cont-icon">
+                  <a href="{% url 'TragonBall:paginaLogin' %}" class="bi bi-person-circle m-1"></a>
+                  <!--<a href="" class="bi bi-cart-fill"></a>-->
+                </div>
+                </div>
+                {% endif %}
+          </div>
+        </div>
+    </nav>
+    <!--/body-->
+    <hr>
+    <script>
+        function calculate() {
+
+            c1 = document.getElementById("currency-one");
+            c2 = document.getElementById("currency-two");
+            amount1 = document.getElementById("amount-one");
+            amount2 = document.getElementById("amount-two");
+            theRate = document.getElementById("rate");
+
+            curr1 = c1.value;
+            curr2 = c2.value;
+            fetch(
+                    `https://v6.exchangerate-api.com/v6/d4ba599409ae0fcda4df6658/latest/${curr1}`
+                )
+                .then((res) => res.json())
+                .then((data) => {
+                    // console.log(data);
+                    // Updating the data
+                    rate = data.conversion_rates[curr2];
+                    theRate.innerText = `1 ${curr1} = ${rate} ${curr2}`;
+                    amount2.value = (amount1.value * rate).toFixed(2);
+                });
+        }
+        document.getElementById("swap").onclick = function () {
+            calculate();
+        }
+    </script>
+    
+    <div class="title text-center py-2 mt-4">
+        <img src="../static/img/orden.png" alt="">
+    </div>
+
+    <div class="row cart-body mt-4">
+        <form class="form-horizontal" method="post" action="">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-3">
+                <!--REVIEW ORDER-->
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Orden de revisión <div class="pull-right"><small></small>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="">
+
+                                <div class="container">
+                                    <div class="">
+                                        <table class="table table-striped custab">
+                                            <tr>
+                                                {% if request.session.carro.items %}
+                                                {% for key, value in request.session.carro.items %}
+                                            <tr class="text-center">
+                                                <span style="margin-left: 12%;">Nombre producto</span>
+                                                <span style="margin-left: 19%;">Cantidad</span>
+                                                <span style="margin-left: 28%;">Precio</span>
+                                                <td>{{value.nombre}}</td>
+                                                <td>{{value.cantidad}}</td>
+                                                <td>{{value.precio}}</td><br>
+                                            </tr>
+                                            {% endfor%}
+                                            {% endif %}
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <hr />
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-4">
+                                <strong style="margin-left: 19%;">Orden Total</strong>
+                                 ${{importe_total_carro}}
+                            </div>
+                        </div>
+                    </div>
+                    <section class="container">
+                        <div id="smart-button-container">
+                            <div style="text-align: center;">
+                                <div id="paypal-button-container"></div>
+                            </div>
+                        </div>
+
+                        <script
+                            src="https://www.paypal.com/sdk/js?client-id=AbqZrFYyXZrbYCSiffBTdEiDKEtA80zr5diV2DjN4twgVB8WuvfvfDg1S1ixAEKGiR55ft9aHjIJQzBF">
+                            // Required. Replace SB_CLIENT_ID with your sandbox client ID.
+                        </script>
+                        <script>
+                            //           var total = '{{importe_total_carro}}'
+
+                            function initPayPalButton() {
+
+                                paypal.Buttons({
+                                    style: {
+                                        shape: 'rect',
+                                        color: 'gold',
+                                        layout: 'vertical',
+                                        label: 'paypal',
+                                    },
+
+
+                                    createOrder: function (data, actions) {
+                                        // This function sets up the details of the transaction, including the amount and line item details.
+                                        return actions.order.create({
+                                            purchase_units: [{
+                                                "description": "Carrito de compras",
+                                                "amount": {
+                                                    "currecy_code": "USD",
+                                                    "value": "{{Total}}"
+                                                }
+                                            }]
+                                            //purchase_units: [{"description":"Carrito de compras","amount":{"currecy_code":"USD","value":'2500'}}]
+                                        });
+                                    },
+                                    onApprove: function (data, actions) {
+                                        return actions.order.capture().then(function (details) {
+                                            alert('Transaction completed by ' + details.payer.name
+                                                .given_name +
+                                                '!');
+                                        });
+                                    },
+
+                                    onError: function (err) {
+                                        console.log(err);
+                                    }
+                                }).render('#paypal-button-container');
+                            }
+                            initPayPalButton();
+                        </script>
+                       
+                    </section>
+                </div>
+                <a href="{% url 'TragonBall:carro' %}" class="btn btn-primary mt-0" style="background-color: yellow; color: black; font-weight: bold; margin-left: 43%;">Volver al carro</a>
+                <hr>
+                <!--REVIEW ORDER END-->
+            </div>
+
+        </form>
+    </div>
+    
+    <!----Footer-->
+    <footer class="pie-pagina">
+        <div class="grupo1">
+            <div class="box">
+                <figure>
+                    <a href="">
+                        <img style="width: 75%; margin-left: 12%;" src="../static/img/esfera.png" alt="esfera">
+                    </a>
+                </figure>
+            </div>
+
+            <div class="box text-center">
+                <h2>Contacto</h2>
+                <div class="cont"></div>
+                <p>Correo electrónico:</p>
+                <a href="mailto:tragonballzpyme@gmail.com">tragonballzpyme@gmail.com</a>
+                <p>Número de teléfono:</p>
+                <a href="tel:+56987654321">+569 8765 4321</a>
+                <p>Ponte en comunicación con nosotros!</p>
+            </div>
+
+            <div class="box text-center">
+                <h2>Ayuda pedidos</h2>
+                <div class="ayuda">
+                    <a href="{% url 'TragonBall:tiposPago' %}">Tipos de pago</a>
+                </div>
+            </div>
+        </div>
+        <div class="grupo-2"></div>
+        <small>&copy; 2021 <b>Tragón Ball Z</b> - Todos los derechos reservados.</small>
+    </footer>
+</body>
+
+</html>

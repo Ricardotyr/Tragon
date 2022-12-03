@@ -1,0 +1,154 @@
+.slide img{
+    height: 80vh;
+}
+
+#delivery{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    height: 70vh;
+    color: white;
+    background-image: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.5),
+        rgba(0,0,0,0.5)
+    ),
+    url("../img/nube3.png");
+    background-repeat: none;
+    background-size: cover;
+    background-position: center center;
+}
+
+.gradient-custom{
+    background: #e8eaeb;
+}
+
+/*footer*/
+.pie-pagina .grupo1{
+    width: 90%;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 30px;
+    padding: 35px 0px;
+}
+
+.pie-pagina .grupo1 .box figure img{
+    width: 350px;
+
+}
+
+.pie-pagina .grupo1 .box h2{
+    color: orange;
+    margin-bottom: 25px;
+    font-size: 25px;
+    padding-left: 10px;
+}
+
+.pie-pagina .grupo1 .box p{
+    color: black;
+    margin-bottom: 10px;
+    padding-left: 15px;
+}
+
+.pie-pagina .grupo1 .box a{
+    color: black;
+    margin-bottom: 10px;
+    padding-left: 15px;
+}
+
+.pie-pagina .grupo1 .box .ayuda a{
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    text-decoration: none;
+}
+
+/* NAVBAR */
+
+.nav-link{
+    font-weight: bold;
+}
+
+/* Buscador */
+.d-flex{
+    margin-right: 20px;
+}
+
+/* ICON Usuario y Carro*/
+.cont-icon{
+    font-size: 30px;
+    text-decoration: none;
+    color: black;
+}
+
+.form.cont{
+    width: 340px;
+    height: 440px;
+    border-radius: 8px;
+    box-shadow: 0 0 40px -10px;
+}
+
+@media (min-width: 720px){
+
+    /* Footer */
+    .pie-pagina{
+        width: 100%;
+        background-color: white;
+    }
+
+    .pie-pagina .grupo1{
+        width: 100%;
+        max-width: 1200px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 50px;
+        padding: 45px 0px;
+    }
+
+    .pie-pagina .grupo1 .box figure{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pie-pagina .grupo1 .box figure img{
+        width: 250px;
+    }
+
+    .pie-pagina .grupo1 .box h2{
+        color: orange;
+        margin-bottom: 25px;
+        font-size: 25px;
+    }
+
+    .pie-pagina .grupo1 .box p{
+        color: black;
+        margin-bottom: 10px;
+    }
+
+    .pie-pagina .grupo1 .box .ayuda a{
+        font-size: 20px;
+        margin-bottom: 10px;
+        text-decoration: none;
+        color: black;
+    }
+
+    .pie-pagina .grupo1 .ayuda a:hover{
+        color: red;
+    }
+
+    .pie-pagina .grupo1 .cont a:hover{
+        color: red;
+    }
+
+    .pie-pagina .grupo1 .box .cont a{
+        font-size: 20px;
+        margin-bottom: 10px;
+        text-decoration: none;
+        color: black;
+    }
+}
