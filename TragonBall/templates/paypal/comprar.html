@@ -137,7 +137,7 @@
 
                                 <div class="container">
                                     <div class="">
-                                        <table class="table table-striped custab">
+                                        <table class="table table-bordered">
                                             <tr>
                                                 {% if request.session.carro.items %}
                                                 {% for key, value in request.session.carro.items %}
@@ -206,9 +206,7 @@
                                     },
                                     onApprove: function (data, actions) {
                                         return actions.order.capture().then(function (details) {
-                                            alert('Transaction completed by ' + details.payer.name
-                                                .given_name +
-                                                '!');
+                                            window.location.href="comprahecha"
                                         });
                                     },
 
@@ -217,7 +215,8 @@
                                     }
                                 }).render('#paypal-button-container');
                             }
-                            initPayPalButton();
+                                          
+
                         </script>
                        
                     </section>

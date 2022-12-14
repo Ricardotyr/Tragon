@@ -18,6 +18,10 @@ from carro.carro import Carro
 def inicio(request):
     return render(request, "inicio.html")
 
+
+# Inicio
+def comprahecha(request):
+    return render(request, "comprahecha.html")
 # Productos
 def producto(request):
     producto = ProductoElaborado.objects.filter(categoria_id_categoria__in = [4,5,6,7])
